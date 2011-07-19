@@ -190,7 +190,9 @@
 			return $params;
 		}
 		
-	
+		private function getNumberOfEntriesInSection() {
+		
+		}
 	
 	/*-------------------------------------------------------------------------
 		Installation
