@@ -8,6 +8,7 @@
 		private $_callback;
 		private $_static;
 		private $_section;
+		private $_limit = 1;
 
 		public function __construct($args){
 			$this->_Parent =& $args['parent'];
@@ -20,22 +21,27 @@
 		public function about(){
 			return array(
 				'name' => 'Static Section',
-				'version' => '1.6.1',
-				'release-date' => '2011-05-11',
+				'version' => '1.6.2',
+				'release-date' => '2011-07-21',
 				'author' => array(
 					array(
-						'name' => 'Nathan Martin',
-						'website' => 'http://knupska.com',
-						'email' => 'nathan@knupska.com'
+						'name' 		=> 'Nathan Martin',
+						'website' 	=> 'http://knupska.com',
+						'email' 	=> 'nathan@knupska.com'
 					),
 					array(
-						'name' => 'Rainer Borene',
-						'website' => 'http://rainerborene.com',
-						'email' => 'me@rainerborene.com'
+						'name' 		=> 'Rainer Borene',
+						'website' 	=> 'http://rainerborene.com',
+						'email' 	=> 'me@rainerborene.com'
 					),
 					array(
-						'name' => 'Vlad Ghita',
-						'email' => 'vlad_micutul@yahoo.com'
+						'name' 		=> 'Vlad Ghita',
+						'email' 	=> 'vlad_micutul@yahoo.com'
+					),
+					array(
+						'name'		=> 'Solutions Nitriques',
+						'website'	=> 'http://www.nitriques.com/open-source/',
+						'email'		=> 'open-source (at) nitriques.com'
 					)
 				)
 			);
@@ -191,11 +197,16 @@
 	-------------------------------------------------------------------------*/
 		
 		public function install(){
-			return Administration::instance()->Database->query("ALTER TABLE `tbl_sections` ADD `static` enum('yes','no') NOT NULL DEFAULT 'no' AFTER `hidden`");
+			return Administration::instance()->Database->query("
+				ALTER TABLE `tbl_sections` 
+					ADD `static` enum('yes','no') NOT NULL DEFAULT 'no' AFTER `hidden`
+			");
 		}
 
 		public function uninstall(){
-			return Administration::instance()->Database->query("ALTER TABLE `tbl_sections` DROP `static`");
+			return Administration::instance()->Database->query("
+				ALTER TABLE `tbl_sections` DROP `static`
+			");
 		}
 
 	}
