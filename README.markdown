@@ -34,7 +34,7 @@ Symphony    | Static Section
   ------------| -------------
   2.0 – 2.0.5 | Not compatible
   2.0.6 – 2.2 | [1.5](https://github.com/knupska/static_section/tree/1.5)
-  2.2.*       | [latest](https://github.com/knupska/static_section/tree/1.7.0)
+  2.2.*       | [latest](https://github.com/knupska/static_section/tree/1.7)
 
 ## Changelog
 
