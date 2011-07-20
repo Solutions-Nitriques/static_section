@@ -38,7 +38,8 @@ Symphony    | Static Section
 
 ## Changelog
 
-**1.7.0**
+**1.7.0**  
+
 - added a 'limit' setting
 - refactored the install code, use the new Symphony::Database() pointer for queries
 
