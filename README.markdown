@@ -34,12 +34,12 @@ Symphony    | Static Section
   ------------| -------------
   2.0 – 2.0.5 | Not compatible
   2.0.6 – 2.2 | [1.5](https://github.com/knupska/static_section/tree/1.5)
-  2.2.*       | [latest](https://github.com/knupska/static_section/tree/1.6.1)
+  2.2.*       | [latest](https://github.com/knupska/static_section/tree/1.7.0)
 
 ## Changelog
 
 **1.7.0**
-- added a 'limit' settings
+- added a 'limit' setting
 - refactored the install code, use the new Symphony::Database() pointer for queries
 
 **1.6.1**
