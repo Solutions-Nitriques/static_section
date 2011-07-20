@@ -136,6 +136,8 @@
 		public function appendElementBelowView($context){
 			
 			// if static section, replace __FIRST__ <h2> title with section name
+			// in order to remove the "create new" button
+			// @todo: change to a method that removes the node in Sym 2.2.2
 			if ( $this->_static &&  $this->isLimitReached()) {
 				
 				foreach ( $context['parent']->Page->Contents->getChildren() as $child ) {
@@ -152,6 +154,12 @@
 		Public Helpers
 	-------------------------------------------------------------------------*/
 		
+		/**
+		 * 
+		 * Method that returns <code>true</code> if we currently are in 
+		 * a static section in the Backend and if this section is static; <code>false</code> otherwise
+		 * @return boolean
+		 */
 		public function isStaticSection(){
 			if ($this->isInSection()){
 				return ($this->_section->get('static') == 'yes');
@@ -160,6 +168,11 @@
 			return false;
 		}
 		
+		/**
+		 * 
+		 * Method that returns true if the maximum number of entries is reach
+		 * @return boolean
+		 */
 		public function isLimitReached() {
 			return $this->_count >= $this->_limit;
 		}
