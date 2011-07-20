@@ -20,7 +20,10 @@
 	$dictionary = array(
 
 		'Make this section static (i.e. a single entry section)' =>
-		'Seção estática (exemplo, uma seção de entrada única)'
+		'Seção estática (exemplo, uma seção de entrada única)',
+		
+		'You can set a maximum number of entries too' =>
+		false
 
 	);
 

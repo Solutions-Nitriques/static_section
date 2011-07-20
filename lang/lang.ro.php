@@ -17,6 +17,9 @@
 	$dictionary = array(
 
 		'Make this section static (i.e. a single entry section)' => 
-		'Declară această secţiune statică (ex: permite o singură înregistrare)'
+		'Declară această secţiune statică (ex: permite o singură înregistrare)',
+		
+		'You can set a maximum number of entries too' =>
+		false
 		
 	);

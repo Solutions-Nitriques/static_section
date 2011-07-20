@@ -113,10 +113,26 @@
 				$setting = array('checked' => 'checked');
 			}
 			
-			// Prepare setting
+			$limit_value = $context['meta']['static_limit'] ? $context['meta']['static_limit'] : 1;
+			
+			// Prepare setting UI
 			$label = new XMLElement('label');
-			$checkbox = new XMLElement('input', ' ' . __('Make this section static (i.e. a single entry section)'), array_merge($setting, array('name' => 'meta[static]', 'type' => 'checkbox', 'value' => 'yes')));
+			$checkbox = Widget::Input('meta[static]', 
+									NULL, 
+									'checkbox', 
+									array_merge($setting, array('value' => 'yes'))); 
+			
+			
+			$textbox = Widget::Input('meta[static_limit]', $limit_value, 'text', array('style'=>'width:30px')); 
+			
+			$br = new XMLElement('br');
+			$br->setSelfClosingTag(true);
+			
 			$label->appendChild($checkbox);
+			$label->appendChild(new XMLElement('span', ' ' . __('Make this section static (i.e. a single entry section)')));
+			$label->appendChild($br);
+			$label->appendChild(new XMLElement('span', __('You can set a maximum number of entries too')));
+			$label->appendChild($textbox);
 			
 			// Find context
 			$fieldset = $context['form']->getChildren();
@@ -130,6 +146,9 @@
 		public function saveSectionSettings($context) {
 			if(!$context['meta']['static']) {
 				$context['meta']['static'] = 'no';
+			}
+			if (!$context['meta']['static_limit']) {
+				$context['meta']['static_limit'] = 1;
 			}
 		}
 		
