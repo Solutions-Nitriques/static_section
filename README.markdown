@@ -3,9 +3,9 @@ Static Section
 
 Static Sections simplify the process of editing field collections that should only exist once in Symphony.
 
-- Version: 1.6.1
-- Author: [Nathan Martin](mailto:nathan@knupska.com), [Rainer Borene](mailto:rainerborene@gmail.com), [Vlad Ghita](mailto:vlad.ghita@xandergroup.ro)
-- Build Date: 2011-01-11
+- Version: 1.7.0
+- Author: [Nathan Martin](mailto:nathan@knupska.com), [Rainer Borene](mailto:rainerborene@gmail.com), [Vlad Ghita](mailto:vlad.ghita@xandergroup.ro), [Solutions Nitriques](http://www.nitriques.com/open-source/)
+- Build Date: 2011-07-21
 - Requirements: Symphony 2.2.1
 
 ### Installation
@@ -15,6 +15,8 @@ Static Sections simplify the process of editing field collections that should on
 2. Enable it by selecting the "Static Section" extension, choose Enable from the 'With Selected' dropdown menu, then click Apply.
 
 3. Bluprints > Sections and edit some section that you'll "Make this section static (i.e a single entry section)".
+
+4. *(Optional)* You can specify a different limit for you static section (i.e. limit the input to 4 entries)
 
 ### Important Notes
 
@@ -35,6 +37,10 @@ Symphony    | Static Section
   2.2.*       | [latest](https://github.com/knupska/static_section/tree/1.6.1)
 
 ## Changelog
+
+**1.7.0**
+- added a 'limit' settings
+- refactored the install code, use the new Symphony::Database() pointer for queries
 
 **1.6.1**
 

@@ -9,6 +9,7 @@
 		private $_static;
 		private $_section;
 		private $_limit = 1;
+		private $_count = 0;
 
 		public function __construct($args){
 			$this->_Parent =& $args['parent'];
@@ -16,12 +17,14 @@
 			$this->_callback = Administration::instance()->getPageCallback();
 			$this->_section = $this->getSection();
 			$this->_static = $this->isStaticSection();
+			$this->_limit = $this->getSectionLimit();
+			$this->_count = $this->getNumberOfEntriesInSection();
 		}
 
 		public function about(){
 			return array(
 				'name' => 'Static Section',
-				'version' => '1.6.2',
+				'version' => '1.7.0',
 				'release-date' => '2011-07-21',
 				'author' => array(
 					array(
@@ -83,17 +86,21 @@
 	-------------------------------------------------------------------------*/
 		
 		public function redirectRules($context){
-			if ($this->_static){
+			if ($this->_static && $this->_limit == 1) {
+				// we must redirect than
+				
 				$section_handle = $this->_section->get('handle');
 				$entry = $this->getLastPosition();
 				$params = $this->getConcatenatedParams();
 
-				if ($this->_callback['context']['entry_id'] != $entry || $this->_callback['context']['page'] == 'index'){
-					redirect(URL . "/symphony/publish/{$section_handle}/edit/{$entry}/{$params}");
-				}
-
+				// no entry found... redirect to new
 				if (!$entry && $this->_callback['context']['page'] != 'new'){
 					redirect(URL . "/symphony/publish/{$section_handle}/new/{$params}");
+				}
+				
+				// some entries are there redirect to edit page
+				if ($this->_callback['context']['entry_id'] != $entry || $this->_callback['context']['page'] == 'index'){
+					redirect(URL . "/symphony/publish/{$section_handle}/edit/{$entry}/{$params}");
 				}
 			}
 		}
@@ -129,18 +136,33 @@
 		public function appendElementBelowView($context){
 			
 			// if static section, replace __FIRST__ <h2> title with section name
-			if ( $this->_static ) {
+			if ( $this->_static &&  $this->isLimitReached()) {
 				
 				foreach ( $context['parent']->Page->Contents->getChildren() as $child ) {
 				
 					if ($child->getName() == 'h2') {
-						$child->setValue($this->_section->get('name'));
+						$child->setValue('<span>' . $this->_section->get('name') . '</span>'); // add span to preserve original markup
 						break;
 					}
 				}
 			}
 		}
 		
+	/*-------------------------------------------------------------------------
+		Public Helpers
+	-------------------------------------------------------------------------*/
+		
+		public function isStaticSection(){
+			if ($this->isInSection()){
+				return ($this->_section->get('static') == 'yes');
+			}
+			
+			return false;
+		}
+		
+		public function isLimitReached() {
+			return $this->_count >= $this->_limit;
+		}
 		
 	/*-------------------------------------------------------------------------
 		Helpers
@@ -153,13 +175,7 @@
 			return $sm->fetch($section_id);
 		}
 		
-		public function isStaticSection(){
-			if ($this->_callback['driver'] == 'publish' && is_array($this->_callback['context'])){
-				return ($this->_section->get('static') == 'yes');
-			}
-			
-			return false;
-		}
+		
 		
 		private function getLastPosition(){
 			$em = new EntryManager($this->_Parent);
@@ -190,24 +206,63 @@
 			return $params;
 		}
 		
-		private function getNumberOfEntriesInSection() {
-		
+		private function isInSection() {
+			return $this->_callback['driver'] == 'publish' && is_array($this->_callback['context']);
 		}
+		
+		private function getSectionLimit() {
+			if ($this->isInSection()){
+				return $this->_section->get('static_limit');
+			}
+			return -1; // no section found...
+		}
+		
+		private function getNumberOfEntriesInSection() {
+			if ($this->isInSection()){
+			
+				$em = new EntryManager($this->_Parent);
+				
+				return $em->fetchCount($this->_section->get('id'));
+			}
+			
+			return -1; // no entries
+		}
+		
+		
 	
 	/*-------------------------------------------------------------------------
 		Installation
 	-------------------------------------------------------------------------*/
 		
 		public function install(){
-			return Administration::instance()->Database->query("
+			return $this->install_Pre1_7_0() && $this->install_1_7_0();
+		}
+		
+		private function install_Pre1_7_0() {
+			return Symphony::Database()->query("
 				ALTER TABLE `tbl_sections` 
 					ADD `static` enum('yes','no') NOT NULL DEFAULT 'no' AFTER `hidden`
 			");
 		}
+		
+		private function install_1_7_0() {
+			return Symphony::Database()->query("
+					ALTER TABLE `tbl_sections` 
+						ADD `static_limit` int(11) NOT NULL DEFAULT 1 AFTER `static`
+				");
+		}
+		
+		public function update($previousVersion) {
+			if (version_compare($previousVersion, '1.7.0', '<')) {
+				// install new column that appear in the 1.7.0 version
+				return $this->install_1_7_0();
+			}	
+			return true;
+		}
 
 		public function uninstall(){
-			return Administration::instance()->Database->query("
-				ALTER TABLE `tbl_sections` DROP `static`
+			return Symphony::Database()->query("
+				ALTER TABLE `tbl_sections` DROP `static`, `static_limit`
 			");
 		}
 
