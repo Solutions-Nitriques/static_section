@@ -180,7 +180,7 @@
 		 * @return boolean
 		 */
 		public function isStaticSection(){
-			if ($this->isInSection()){
+			if ($this->_section != null && $this->isInSection()){
 				return ($this->_section->get('static') == 'yes');
 			}
 			
