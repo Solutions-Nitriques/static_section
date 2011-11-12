@@ -144,11 +144,20 @@
 			$sm = new SectionManager($this->_Parent);
 			$section_id = $sm->fetchIDFromHandle($this->_callback['context']['section_handle']);
 			
-			return $sm->fetch($section_id);
+			$section = $sm->fetch($section_id);
+			
+			if( is_object($section) && $section instanceof Section ){
+				return $section;
+			}
+			
+			return null;
 		}
 		
 		public function isStaticSection(){
-			if ($this->_callback['driver'] == 'publish' && is_array($this->_callback['context'])){
+			if( ($this->_section != null) 
+			    && ($this->_callback['driver'] == 'publish') 
+			    && is_array($this->_callback['context'])
+			){
 				return ($this->_section->get('static') == 'yes');
 			}
 			
