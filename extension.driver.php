@@ -24,8 +24,8 @@
 		public function about(){
 			return array(
 				'name' => 'Static Section',
-				'version' => '1.7.0',
-				'release-date' => '2011-07-21',
+				'version' => '1.7.1',
+				'release-date' => '2011-11-15',
 				'author' => array(
 					array(
 						'name' 		=> 'Nathan Martin',
@@ -180,12 +180,16 @@
 		 * @return boolean
 		 */
 		public function isStaticSection(){
-			if ($this->_section != null && $this->isInSection()){
+			if( ($this->_section != null) 
+			    && ($this->_callback['driver'] == 'publish') 
+			    && is_array($this->_callback['context'])
+			){
 				return ($this->_section->get('static') == 'yes');
 			}
 			
 			return false;
 		}
+		
 		
 		/**
 		 * 
@@ -204,10 +208,14 @@
 			$sm = new SectionManager($this->_Parent);
 			$section_id = $sm->fetchIDFromHandle($this->_callback['context']['section_handle']);
 			
-			return $sm->fetch($section_id);
+			$section = $sm->fetch($section_id);
+			
+			if( is_object($section) && $section instanceof Section ){
+				return $section;
+			}
+			
+			return null;
 		}
-		
-		
 		
 		private function getLastPosition(){
 			$em = new EntryManager($this->_Parent);
