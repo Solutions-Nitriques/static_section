@@ -49,7 +49,7 @@
 				)
 			);
 		}
-	
+
 		public function getSubscribedDelegates(){
 			return array(
 				array(
@@ -80,22 +80,25 @@
 			);
 		}
 
-		
+
 	/*-------------------------------------------------------------------------
 		Delegates
 	-------------------------------------------------------------------------*/
-		
+
 		public function redirectRules($context){
 			if ($this->_static && $this->_limit == 1) {
 				// we must redirect than
-				
 				$section_handle = $this->_section->get('handle');
 				$entry = $this->getLastPosition();
 				$params = $this->getConcatenatedParams();
 
 				// no entry found... redirect to new
+				if ($this->_callback['context']['entry_id'] != $entry || $this->_callback['context']['page'] == 'index'){
+					redirect(SYMPHONY_URL . "/publish/{$section_handle}/edit/{$entry}/{$params}");
+				}
+
 				if (!$entry && $this->_callback['context']['page'] != 'new'){
-					redirect(URL . "/symphony/publish/{$section_handle}/new/{$params}");
+					redirect(SYMPHONY_URL . "/publish/{$section_handle}/new/{$params}");
 				}
 				
 				// some entries are there redirect to edit page
@@ -106,7 +109,6 @@
 		}
 
 		public function addSectionSettings($context) {
-			
 			// Get current setting
 			$setting = array();
 			if($context['meta']['static'] == 'yes') {
@@ -129,20 +131,28 @@
 			$br->setSelfClosingTag(true);
 			
 			$label->appendChild($checkbox);
+			
 			$label->appendChild(new XMLElement('span', ' ' . __('Make this section static (i.e. a single entry section)')));
 			$label->appendChild($br);
 			$label->appendChild(new XMLElement('span', __('You can set a maximum number of entries too')));
 			$label->appendChild($textbox);
 			
 			// Find context
-			$fieldset = $context['form']->getChildren();
-			$group = $fieldset[0]->getChildren();
-			$column = $group[1]->getChildren();
-			
-			// Append setting
-			$column[0]->appendChild($label);
+			$children = $context['form']->getChildren();
+			foreach( $children as $element ) {
+				// Only work with Fieldset, improves compatibility with other extensions
+				if($element->getName() !== 'fieldset') continue;
+
+				$group = $element->getChildren();
+				$column = $group[1]->getChildren();
+
+				// Append setting
+				$column[0]->appendChild($label);
+
+				break;
+			}
 		}
-		
+
 		public function saveSectionSettings($context) {
 			if(!$context['meta']['static']) {
 				$context['meta']['static'] = 'no';
@@ -151,16 +161,15 @@
 				$context['meta']['static_limit'] = 1;
 			}
 		}
-		
+
 		public function appendElementBelowView($context){
-			
+
 			// if static section, replace __FIRST__ <h2> title with section name
 			// in order to remove the "create new" button
 			// @todo: change to a method that removes the node in Sym 2.2.2
 			if ( $this->_static &&  $this->isLimitReached()) {
-				
 				foreach ( $context['parent']->Page->Contents->getChildren() as $child ) {
-				
+
 					if ($child->getName() == 'h2') {
 						$child->setValue('<span>' . $this->_section->get('name') . '</span>'); // add span to preserve original markup
 						break;
@@ -200,6 +209,7 @@
 			return $this->_count >= $this->_limit;
 		}
 		
+		
 	/*-------------------------------------------------------------------------
 		Helpers
 	-------------------------------------------------------------------------*/
@@ -215,11 +225,21 @@
 			}
 			
 			return null;
+
+			return $sm->fetch($section_id);
 		}
-		
+
+		public function isStaticSection(){
+			if ($this->_callback['driver'] == 'publish' && is_array($this->_callback['context'])){
+				return ($this->_section->get('static') == 'yes');
+			}
+
+			return false;
+		}
+
 		private function getLastPosition(){
 			$em = new EntryManager($this->_Parent);
-			
+
 			$em->setFetchSortingDirection('DESC');
 			$entry = $em->fetch(NULL, $this->_section->get('id'), 1);
 
@@ -228,7 +248,7 @@
 				return $entry->get('id');
 			}
 		}
-		
+
 		private function getConcatenatedParams(){
 			if (count($_GET) > 2) {
 				$params = "?";
@@ -236,13 +256,13 @@
 
 			foreach($_GET as $key => $value){
 				if (in_array($key, array('symphony-page', 'mode'))) continue;
-				
+
 				$params .= "{$key}={$value}";
 				if (next($_GET)) {
 					$params .= '&';
 				}
 			}
-			
+
 			return $params;
 		}
 		
@@ -268,12 +288,10 @@
 			return -1; // no entries
 		}
 		
-		
-	
 	/*-------------------------------------------------------------------------
 		Installation
 	-------------------------------------------------------------------------*/
-		
+
 		public function install(){
 			return $this->install_Pre1_7_0() && $this->install_1_7_0();
 		}
