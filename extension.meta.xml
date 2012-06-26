@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension id="static_section" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
 	<name>Static Section</name>
-	<description>Simplifies content entry/editing of sections with a limit of entries</description>
+	<description>Static Sections simplify the process of editing field collections that should only exist once (or a limited number) in Symphony.</description>
 	<repo type="github">https://github.com/knupska/static_section</repo>
 	<url type="discuss">http://symphony-cms.com/discuss/thread/26297/</url>
 	<types>
@@ -31,8 +31,22 @@
 	</authors>
 	<releases>
 		<release version="1.8" date="2012-06-26" min="2.3">
-			
+			- Update for Symphony 2.3
 		</release>
-		<release version="1.5" date="2009-12-11" min="2.0.6" max="2.2.5" />
+		<release version="1.7.1" min="2.2.1" max="2.2.5">
+			- updates from Vlad and other bug fixes
+		</release>
+		<release version="1.7" min="2.2.1" max="2.2.5">
+			- added a 'limit' setting
+			- refactored the install code, use the new Symphony::Database() pointer for queries
+		</release>
+		<release version="1.6.1" min="2.2.1" max="2.2.5">
+			- when static section, `<h2>` element from `publish/edit` and `publish/new` page contains section name
+			- refactored the code
+		</release>
+		<release version="1.6" min="2.2.1" max="2.2.5">
+			- rewrite for Symphony 2.2.1 new delegates
+		</release>
+		<release version="1.5" date="2009-12-11" min="2.0.6" max="2.1" />
 	</releases>
 </extension>
