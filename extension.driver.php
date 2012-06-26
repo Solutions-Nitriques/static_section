@@ -12,8 +12,6 @@
 		private $_count = 0;
 
 		public function __construct($args){
-			//$this->_Parent =& $args['parent'];
-
 			$this->_callback = Administration::instance()->getPageCallback();
 			$this->_section = $this->getSection();
 			$this->_static = $this->isStaticSection();
@@ -59,37 +57,6 @@
 		public function initaliseAdminPageHead($context) {
 			$this->redirectRules($context);
 			$this->addJavascriptFile();
-		}
-		
-		public function redirectRules($context){
-			if ($this->_static && $this->_limit == 1) {
-				// we must redirect than
-				$section_handle = $this->_section->get('handle');
-				$entry = $this->getLastPosition();
-				$params = $this->getConcatenatedParams();
-
-				// no entry found... redirect to new
-				if ($this->_callback['context']['entry_id'] != $entry || $this->_callback['context']['page'] == 'index'){
-					redirect(SYMPHONY_URL . "/publish/{$section_handle}/edit/{$entry}/{$params}");
-				}
-
-				if (!$entry && $this->_callback['context']['page'] != 'new'){
-					redirect(SYMPHONY_URL . "/publish/{$section_handle}/new/{$params}");
-				}
-				
-				// some entries are there redirect to edit page
-				if ($this->_callback['context']['entry_id'] != $entry || $this->_callback['context']['page'] == 'index'){
-					redirect(SYMPHONY_URL . "/publish/{$section_handle}/edit/{$entry}/{$params}");
-				}
-			}
-		}
-		
-		private function addJavascriptFile() {
-			Administration::instance()->Page->addScriptToHead(
-				URL . '/extensions/static_section/assets/publish.static_section.js',
-				time(),
-				false
-			);
 		}
 
 		public function addSectionSettings($context) {
@@ -147,21 +114,8 @@
 		}
 
 		public function adminPagePreGenerate($context){
-
-			// if static section, replace __FIRST__ <h2> title with section name
-			// in order to remove the "create new" button
-			// @todo: change to a method that removes the node in Sym 2.2.2
-			/*if ( $this->_static &&  $this->isLimitReached()) {
-				foreach ( $context['parent']->Page->Contents->getChildren() as $child ) {
-
-					if ($child->getName() == 'h2') {
-						$child->setValue('<span>' . $this->_section->get('name') . '</span>'); // add span to preserve original markup
-						break;
-					}
-				}
-			}*/
 			if ( $this->_static &&  $this->isLimitReached()) {
-				//$this->hideCreateNewButton(Administration::instance()->Page->Context);
+				// add a css class in order to get the js do its job
 				Administration::instance()->Page->Html->addClass('no-new');
 			}
 		}
@@ -195,8 +149,39 @@
 		
 		
 	/*-------------------------------------------------------------------------
-		Helpers
+		Private Helpers
 	-------------------------------------------------------------------------*/
+		
+		private function redirectRules($context){
+			if ($this->_static && $this->_limit == 1) {
+				// we must redirect than
+				$section_handle = $this->_section->get('handle');
+				$entry = $this->getLastPosition();
+				$params = $this->getConcatenatedParams();
+		
+				// no entry found... redirect to new
+				if ($this->_callback['context']['entry_id'] != $entry || $this->_callback['context']['page'] == 'index'){
+					redirect(SYMPHONY_URL . "/publish/{$section_handle}/edit/{$entry}/{$params}");
+				}
+		
+				if (!$entry && $this->_callback['context']['page'] != 'new'){
+					redirect(SYMPHONY_URL . "/publish/{$section_handle}/new/{$params}");
+				}
+		
+				// some entries are there redirect to edit page
+				if ($this->_callback['context']['entry_id'] != $entry || $this->_callback['context']['page'] == 'index'){
+					redirect(SYMPHONY_URL . "/publish/{$section_handle}/edit/{$entry}/{$params}");
+				}
+			}
+		}
+		
+		private function addJavascriptFile() {
+			Administration::instance()->Page->addScriptToHead(
+					URL . '/extensions/static_section/assets/publish.static_section.js',
+					time(),
+					false
+			);
+		}
 
 		private function hideCreateNewButton($xmlRoot) {
 			$children = $xmlRoot->getChildren();
