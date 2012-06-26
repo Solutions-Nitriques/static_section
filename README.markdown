@@ -1,12 +1,8 @@
-Static Section
-==============
+# Static Section
 
-Static Sections simplify the process of editing field collections that should only exist once in Symphony.
+#### Version 1.8
 
-- Version: 1.7.1
-- Author: [Nathan Martin](mailto:nathan@knupska.com), [Rainer Borene](mailto:rainerborene@gmail.com), [Vlad Ghita](mailto:vlad.ghita@xandergroup.ro), [Solutions Nitriques](http://www.nitriques.com/open-source/)
-- Build Date: 2011-11-15
-- Requirements: Symphony 2.2.5
+Static Sections simplify the process of editing field collections that should only exist once (or a limited number) in Symphony.
 
 ### Installation
 
@@ -28,30 +24,3 @@ Static Sections simplify the process of editing field collections that should on
    As such if there are additional entries (more than one) in the section, these additional entries  
    will still be output by Symphony when selecting the section as a data source.
 
-## Compatibility
-
-Symphony      | Static Section
-  ------------| -------------
-  2.0 – 2.0.5 | Not compatible
-  2.0.6 – 2.2 | [1.5](https://github.com/knupska/static_section/tree/1.5)
-  2.2.*       | [latest](https://github.com/knupska/static_section/tree/1.7.1)
-
-## Changelog
-
-**1.7.1**
-
-- updates from Vlad and other bug fixes
-
-**1.7.0**  
-
-- added a 'limit' setting
-- refactored the install code, use the new Symphony::Database() pointer for queries
-
-**1.6.1**
-
-- when static section, `<h2>` element from `publish/edit` and `publish/new` page contains section name
-- refactored the code
-
-**1.6**
-
-- rewrite for Symphony 2.2.1 new delegates
