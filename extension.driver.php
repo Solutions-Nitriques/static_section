@@ -26,7 +26,7 @@
 				array(
 					'page' => '/backend/',
 					'delegate' => 'InitaliseAdminPageHead',
-					'callback' => 'redirectRules'
+					'callback' => 'initaliseAdminPageHead'
 				),
 				array(
 					'page' => '/blueprints/sections/',
@@ -45,8 +45,8 @@
 				),
 				array(
 					'page'		=> '/backend/',
-					'delegate'	=> 'AppendElementBelowView',
-					'callback'	=> 'appendElementBelowView'
+					'delegate'	=> 'AdminPagePreGenerate',
+					'callback'	=> 'adminPagePreGenerate'
 				)
 			);
 		}
@@ -56,6 +56,11 @@
 		Delegates
 	-------------------------------------------------------------------------*/
 
+		public function initaliseAdminPageHead($context) {
+			$this->redirectRules($context);
+			$this->addJavascriptFile();
+		}
+		
 		public function redirectRules($context){
 			if ($this->_static && $this->_limit == 1) {
 				// we must redirect than
@@ -77,6 +82,14 @@
 					redirect(SYMPHONY_URL . "/publish/{$section_handle}/edit/{$entry}/{$params}");
 				}
 			}
+		}
+		
+		private function addJavascriptFile() {
+			Administration::instance()->Page->addScriptToHead(
+				URL . '/extensions/static_section/assets/publish.static_section.js',
+				time(),
+				false
+			);
 		}
 
 		public function addSectionSettings($context) {
@@ -133,12 +146,12 @@
 			}
 		}
 
-		public function appendElementBelowView($context){
+		public function adminPagePreGenerate($context){
 
 			// if static section, replace __FIRST__ <h2> title with section name
 			// in order to remove the "create new" button
 			// @todo: change to a method that removes the node in Sym 2.2.2
-			if ( $this->_static &&  $this->isLimitReached()) {
+			/*if ( $this->_static &&  $this->isLimitReached()) {
 				foreach ( $context['parent']->Page->Contents->getChildren() as $child ) {
 
 					if ($child->getName() == 'h2') {
@@ -146,6 +159,10 @@
 						break;
 					}
 				}
+			}*/
+			if ( $this->_static &&  $this->isLimitReached()) {
+				//$this->hideCreateNewButton(Administration::instance()->Page->Context);
+				Administration::instance()->Page->Html->addClass('no-new');
 			}
 		}
 		
@@ -160,7 +177,7 @@
 		 * @return boolean
 		 */
 		public function isStaticSection(){
-			if( ($this->_section != null) && ($this->_callback['driver'] == 'publish') && is_array($this->_callback['context']) ) {
+			if( $this->_section != null && $this->_callback['driver'] == 'publish' && is_array($this->_callback['context']) ) {
 				return ($this->_section->get('static') == 'yes');
 			}
 			return false;
@@ -181,6 +198,18 @@
 		Helpers
 	-------------------------------------------------------------------------*/
 
+		private function hideCreateNewButton($xmlRoot) {
+			$children = $xmlRoot->getChildren();
+			foreach ($children as $child) {
+				var_dump($child->getName() . ' ' . $child->getNumberOfChildren());
+				if ($child->getName() == 'a' && $child->getAttribute('class') == 'create button') {
+					$child->addClass('invisible');
+				} else if ($child->getNumberOfChildren() > 0) {
+					$this->hideCreateNewButton($child);
+				}
+			}
+		}
+		
 		private function getSection(){
 			$sm = new SectionManager($this->_Parent);
 			$section_id = $sm->fetchIDFromHandle($this->_callback['context']['section_handle']);

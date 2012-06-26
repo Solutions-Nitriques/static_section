@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension id="static_section" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
 	<name>Static Section</name>
-	<description>Simplifies content entry/editing</description>
+	<description>Simplifies content entry/editing of sections with a limit of entries</description>
 	<repo type="github">https://github.com/knupska/static_section</repo>
 	<url type="discuss">http://symphony-cms.com/discuss/thread/26297/</url>
 	<types>
