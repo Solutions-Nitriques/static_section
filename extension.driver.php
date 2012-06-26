@@ -189,13 +189,9 @@
 		 * @return boolean
 		 */
 		public function isStaticSection(){
-			if( ($this->_section != null) 
-			    && ($this->_callback['driver'] == 'publish') 
-			    && is_array($this->_callback['context'])
-			){
+			if( ($this->_section != null) && ($this->_callback['driver'] == 'publish') && is_array($this->_callback['context']) ) {
 				return ($this->_section->get('static') == 'yes');
 			}
-			
 			return false;
 		}
 		
@@ -223,18 +219,7 @@
 			if( is_object($section) && $section instanceof Section ){
 				return $section;
 			}
-			
 			return null;
-
-			return $sm->fetch($section_id);
-		}
-
-		public function isStaticSection(){
-			if ($this->_callback['driver'] == 'publish' && is_array($this->_callback['context'])){
-				return ($this->_section->get('static') == 'yes');
-			}
-
-			return false;
 		}
 
 		private function getLastPosition(){
