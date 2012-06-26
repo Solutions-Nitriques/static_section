@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension id="static_section" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+	<name>Static Section</name>
+	<description>Simplifies content entry/editing</description>
+	<repo type="github">https://github.com/knupska/static_section</repo>
+	<url type="discuss">http://symphony-cms.com/discuss/thread/26297/</url>
+	<types>
+		<type>Interface</type>
+	</types>
+	<authors>
+		<author>
+			<name github="knupska" symphony="Knupska">Nathan Martin</name>
+			<website>http://knupska.com</website>
+		</author>
+		<author>
+			<name github="" symphony="">Rainer Borene</name>
+			<website>http://rainerborene.com</website>
+		</author>
+		<author>
+			<name github="vladG" symphony="vladG">Vlad Ghita</name>
+			<email>vlad_micutul@yahoo.com</email>
+		</author>
+		<author>
+			<name github="Solutions-Nitriques" symphony="nitriques" twitter="nitriques">Solutions Nitriques</name>
+			<website>http://www.nitriques.com/open-source/</website>
+		</author>
+		<author>
+			<name github="DeuxHuitHuit" symphony="" twitter="DeuxHuitHuit">Deux Huit Huit</name>
+			<website>http://www.deuxhuithuit.com</website>
+		</author>
+	</authors>
+	<releases>
+		<release version="1.8" date="2012-06-26" min="2.3">
+			
+		</release>
+		<release version="1.5" date="2009-12-11" min="2.0.6" max="2.2.5" />
+	</releases>
+</extension>
