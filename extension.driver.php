@@ -12,42 +12,13 @@
 		private $_count = 0;
 
 		public function __construct($args){
-			$this->_Parent =& $args['parent'];
+			//$this->_Parent =& $args['parent'];
 
 			$this->_callback = Administration::instance()->getPageCallback();
 			$this->_section = $this->getSection();
 			$this->_static = $this->isStaticSection();
 			$this->_limit = $this->getSectionLimit();
 			$this->_count = $this->getNumberOfEntriesInSection();
-		}
-
-		public function about(){
-			return array(
-				'name' => 'Static Section',
-				'version' => '1.7.1',
-				'release-date' => '2011-11-15',
-				'author' => array(
-					array(
-						'name' 		=> 'Nathan Martin',
-						'website' 	=> 'http://knupska.com',
-						'email' 	=> 'nathan@knupska.com'
-					),
-					array(
-						'name' 		=> 'Rainer Borene',
-						'website' 	=> 'http://rainerborene.com',
-						'email' 	=> 'me@rainerborene.com'
-					),
-					array(
-						'name' 		=> 'Vlad Ghita',
-						'email' 	=> 'vlad_micutul@yahoo.com'
-					),
-					array(
-						'name'		=> 'Solutions Nitriques',
-						'website'	=> 'http://www.nitriques.com/open-source/',
-						'email'		=> 'open-source (at) nitriques.com'
-					)
-				)
-			);
 		}
 
 		public function getSubscribedDelegates(){
@@ -103,7 +74,7 @@
 				
 				// some entries are there redirect to edit page
 				if ($this->_callback['context']['entry_id'] != $entry || $this->_callback['context']['page'] == 'index'){
-					redirect(URL . "/symphony/publish/{$section_handle}/edit/{$entry}/{$params}");
+					redirect(SYMPHONY_URL . "/publish/{$section_handle}/edit/{$entry}/{$params}");
 				}
 			}
 		}
@@ -305,7 +276,9 @@
 
 		public function uninstall(){
 			return Symphony::Database()->query("
-				ALTER TABLE `tbl_sections` DROP `static`, `static_limit`
+				ALTER TABLE `tbl_sections` 
+					DROP `static`, 
+					DROP `static_limit`
 			");
 		}
 
