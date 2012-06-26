@@ -41,7 +41,7 @@
 			- refactored the install code, use the new Symphony::Database() pointer for queries
 		</release>
 		<release version="1.6.1" min="2.2.1" max="2.2.5">
-			- when static section, `<h2>` element from `publish/edit` and `publish/new` page contains section name
+			- when static section, `&lt;h2&gt;` element from `publish/edit` and `publish/new` page contains section name
 			- refactored the code
 		</release>
 		<release version="1.6" min="2.2.1" max="2.2.5">
