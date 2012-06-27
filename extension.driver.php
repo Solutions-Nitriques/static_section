@@ -66,7 +66,7 @@
 				$setting = array('checked' => 'checked');
 			}
 			
-			$limit_value = $context['meta']['static_limit'] ? $context['meta']['static_limit'] : 1;
+			$limit_value = $context['meta']['static_limit'] ? $context['meta']['static_limit'] : '1';
 			
 			// Prepare setting UI
 			$label = new XMLElement('label');
