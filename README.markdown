@@ -1,6 +1,6 @@
 # Static Section
 
-#### Version 1.8
+#### Version 1.8.1
 
 Static Sections simplify the process of editing field collections that should only exist once (or a limited number) in Symphony.
 

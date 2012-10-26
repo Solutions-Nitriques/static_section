@@ -30,6 +30,9 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="1.8.1" date="2012-10-26" min="2.3">
+			- Added the getLimit method
+		</release>
 		<release version="1.8" date="2012-06-26" min="2.3">
 			- Update for Symphony 2.3
 		</release>
