@@ -148,6 +148,16 @@
 		}
 		
 		
+		/**
+		 *
+		 * Method that returns the actual limit
+		 * @return int
+		 */
+		public gunction getLimit() {
+			return $this->_limit;
+		}
+		
+		
 	/*-------------------------------------------------------------------------
 		Private Helpers
 	-------------------------------------------------------------------------*/
