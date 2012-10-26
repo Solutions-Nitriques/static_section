@@ -152,7 +152,7 @@
 		Private Helpers
 	-------------------------------------------------------------------------*/
 		
-		private function redirectRules($context){
+		public function redirectRules($context){
 			if ($this->_static && $this->_limit == 1) {
 				// we must redirect than
 				$section_handle = $this->_section->get('handle');
