@@ -153,7 +153,7 @@
 		 * Method that returns the actual limit
 		 * @return int
 		 */
-		public gunction getLimit() {
+		public function getLimit() {
 			return $this->_limit;
 		}
 		
