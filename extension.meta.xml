@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension id="static_section" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+<extension id="static_section" status="deprecated" xmlns="http://symphony-cms.com/schemas/extension/1.0">
 	<name>Static Section</name>
 	<description>Static Sections simplify the process of editing field collections that should only exist once (or a limited number) in Symphony.</description>
 	<repo type="github">https://github.com/knupska/static_section</repo>

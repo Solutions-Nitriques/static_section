@@ -1,5 +1,7 @@
 # Static Section
 
+## This extension is deprecated, and has been superseeded by [limit_section_entries](https://github.com/vlad-ghita/limit_section_entries)
+
 #### Version 1.8.1
 
 Static Sections simplify the process of editing field collections that should only exist once (or a limited number) in Symphony.
