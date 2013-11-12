@@ -21,7 +21,7 @@
 		'Rendi statica questa sezione (potrà contenere una sola voce)',
 		
 		'You can set a maximum number of entries too' =>
-		false
+		'È possibile impostare un numero massimo di voci'
 
 	);
 
